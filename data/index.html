@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bank Customer Churn Prediction & Retention Recommender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-alt: #111629;
+      --card: #161b2f;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79,70,229,0.1);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 60%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .title-block {
+      max-width: 640px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 640px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: rgba(15,23,42,0.8);
+    }
+
+    .meta {
+      min-width: 220px;
+      padding: 14px 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.85);
+      font-size: 0.85rem;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .meta-label {
+      color: var(--muted);
+    }
+
+    .meta-value {
+      font-weight: 500;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1.8fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    section {
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 0 0 10px;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin: 18px 0 8px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.7);
+    }
+
+    .card-soft {
+      background: var(--bg-alt);
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(148,163,184,0.5);
+      padding: 10px 12px;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    p {
+      margin: 0 0 8px;
+      font-size: 0.93rem;
+    }
+
+    ul {
+      margin: 0 0 8px 18px;
+      padding: 0;
+      font-size: 0.93rem;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(79,70,229,0.4);
+      color: #c7d2fe;
+      font-size: 0.75rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .kpi {
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(15,23,42,0.9);
+      border: 1px solid var(--border);
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .kpi-value {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .kpi-footnote {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .layout-split {
+      display: grid;
+      grid-template-columns: minmax(0,1.3fr) minmax(0,1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .layout-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .diagram-placeholder {
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(148,163,184,0.6);
+      padding: 18px 16px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .diagram-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #e5e7eb;
+    }
+
+    .code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.85rem;
+      background: #020617;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #111827;
+      display: inline-block;
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .notebook-list {
+      font-size: 0.86rem;
+      margin-top: 4px;
+    }
+
+    .notebook-list li {
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <header>
+      <div class="title-block">
+        <h1>Bank Customer Churn Prediction & Retention Recommender</h1>
+        <p class="subtitle">
+          End-to-end machine learning system that predicts bank customer churn, estimates expected financial loss,
+          and recommends targeted retention actions. Built across three Jupyter notebooks, with separate training,
+          evaluation, and production-style inference on a new batch of ~15k customers.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Churn Modeling</span>
+          <span class="pill">Customer Analytics</span>
+          <span class="pill">XGBoost &amp; Logistic Regression</span>
+          <span class="pill">Python · scikit-learn · xgboost</span>
+          <span class="pill">End-to-End Pipeline</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="meta-row">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Data Scientist</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Industry</span>
+          <span class="meta-value">Retail Banking</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Labeled records</span>
+          <span class="meta-value">≈ 100,000</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">New records</span>
+          <span class="meta-value">15,640 (inference)</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Notebooks</span>
+          <span class="meta-value">01 · 02 · 03</span>
+        </div>
+        <!-- Optional: add GitHub link -->
+        <!--
+        <div class="meta-row">
+          <span class="meta-label">Code</span>
+          <span class="meta-value"><a href="YOUR_GITHUB_LINK" target="_blank">GitHub Repo ↗</a></span>
+        </div>
+        -->
+      </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <main>
+      <!-- LEFT COLUMN: STORY -->
+      <div>
+        <!-- Problem & Context -->
+        <section class="card">
+          <h2>Problem</h2>
+          <p>
+            A retail bank wants to reduce customer churn. When customers close accounts or move their primary banking
+            elsewhere, the bank loses deposits, loan balances, and cross-sell opportunities.
+          </p>
+          <p>
+            The goal of this project is to:
+          </p>
+          <ul>
+            <li><b>Predict which customers are most likely to churn</b>, and</li>
+            <li><b>Prioritize retention efforts</b> on customers where the expected financial loss is largest.</li>
+          </ul>
+          <p>
+            Because outreach capacity and incentives are limited, the system focuses on the top ~20% highest-risk
+            customers while capturing almost all of the expected loss.
+          </p>
+        </section>
+
+        <!-- Project Flow / Notebooks -->
+        <section class="card">
+          <h2>Project Flow</h2>
+          <p>This project is organized as a three-step pipeline:</p>
+          <h3>1. Data prep & feature engineering (<span class="code">01_bank_churn_eda_features.ipynb</span>)</h3>
+          <ul class="notebook-list">
+            <li>Load raw dataset (<span class="code">bank_customer_churn_copy.csv</span>).</li>
+            <li>Drop leakage and identity columns:
+              <span class="code">CustomerId</span>, names, address, contact info, <span class="code">Churn Reason</span>, <span class="code">Churn Date</span>.
+            </li>
+            <li>Engineer banking-specific features:
+              <span class="code">tenure_bucket</span>, <span class="code">high_balance</span>, <span class="code">has_complaints</span>, <span class="code">Occupation_freq</span>.
+            </li>
+            <li>One-hot encode low-cardinality categoricals
+              (<span class="code">Gender</span>, <span class="code">Marital Status</span>, etc.).
+            </li>
+            <li>Split into train / validation / test and save as Parquet files in <span class="code">processed_bank/</span>.</li>
+          </ul>
+
+          <h3>2. Modeling & recommender (<span class="code">02_bank_churn_modeling_recommender.ipynb</span>)</h3>
+          <ul class="notebook-list">
+            <li>Load processed <span class="code">train.parquet</span>, <span class="code">val.parquet</span>, <span class="code">test.parquet</span>.</li>
+            <li>Train Logistic Regression (baseline) and XGBoost (final model).</li>
+            <li>Evaluate with ROC-AUC, PR-AUC, Recall@K, and lift curves.</li>
+            <li>Compute churn scores, approximate CLV, and expected lost value.</li>
+            <li>Segment customers and assign rule-based retention actions.</li>
+            <li>Export full results to <span class="code">outputs_bank/bank_churn_recommendations.csv</span> and save the model to <span class="code">models/xgb_bank_churn.json</span>.</li>
+          </ul>
+
+          <h3>3. Inference on new customers (<span class="code">03_inference_on_new_customers.ipynb</span>)</h3>
+          <ul class="notebook-list">
+            <li>Load ~15.6k new customers from <span class="code">new_bank_customers.csv</span>.</li>
+            <li>Apply the exact same preprocessing and feature engineering as training.</li>
+            <li>Align feature columns to the training schema and score with the saved XGBoost model.</li>
+            <li>Recompute CLV, expected lost value, segment, and recommended action.</li>
+            <li>Export production-style output to <span class="code">outputs_bank/new_customers_churn_predictions.csv</span>.</li>
+          </ul>
+        </section>
+
+        <!-- Data & Features -->
+        <section class="card">
+          <h2>Data & Features</h2>
+          <p>
+            The labeled dataset contains around 100k customers with demographics, relationship attributes, and financials.
+            A separate file (~15.6k customers) is used for scoring only.
+          </p>
+          <h3>Inputs</h3>
+          <ul>
+            <li><b>Demographics:</b> gender, marital status, education, dependents, income.</li>
+            <li><b>Relationship:</b> customer tenure, segment (retail / SME), preferred channel, number of products.</li>
+            <li><b>Financials:</b> balance, credit score, credit history length, outstanding loans.</li>
+            <li><b>Risk & satisfaction:</b> number of complaints.</li>
+          </ul>
+          <h3>Engineered (Notebook 1)</h3>
+          <ul>
+            <li><span class="code">tenure_bucket</span> – 0–6m, 6–12m, 1–3y, 3y+.</li>
+            <li><span class="code">high_balance</span> – 1 if balance above train median.</li>
+            <li><span class="code">has_complaints</span> – 1 if any complaint.</li>
+            <li><span class="code">Occupation_freq</span> – frequency-encoded occupation; replaces a 600+ category string column.</li>
+          </ul>
+          <div class="card-soft">
+            <b>Leakage handling:</b> columns known only after churn (like <span class="code">Churn Reason</span> and
+            <span class="code">Churn Date</span>) and personal identifiers are removed before modeling to keep
+            the system realistic and deployable.
+          </div>
+        </section>
+
+        <!-- Modeling -->
+        <section class="card">
+          <h2>Modeling & Evaluation</h2>
+          <p>
+            Churn prediction is framed as a binary classification problem on an imbalanced dataset
+            (~12% churn rate). To handle this, class weights are used and metrics focus on ranking quality.
+          </p>
+          <h3>Models</h3>
+          <ul>
+            <li><b>Logistic Regression:</b> baseline, class-weighted, interpretable.</li>
+            <li><b>XGBoost:</b> gradient-boosted trees, tuned for non-linear interactions and class imbalance.</li>
+          </ul>
+          <h3>Key evaluation metrics</h3>
+          <ul>
+            <li>ROC-AUC and PR-AUC on validation and test splits.</li>
+            <li>Recall@Top 5%, 10%, 20% highest-risk customers (business-relevant).</li>
+            <li>Lift curves vs random targeting.</li>
+          </ul>
+          <div class="card-soft">
+            In practice, the bank can only contact a small fraction of its customers each cycle.
+            Evaluating Recall@K and lift answers the question:
+            <i>“If we only contact the top 10–20% most at-risk customers, how much churn do we capture?”</i>
+          </div>
+        </section>
+
+        <!-- CLV & Recommendations -->
+        <section class="card">
+          <h2>CLV & Recommendation Engine</h2>
+          <p>
+            To prioritize interventions by business value, each customer is assigned an approximate customer lifetime
+            value (<span class="code">clv_est</span>) and an expected lost value if they churn:
+          </p>
+          <p class="code">
+            clv_est ≈ Balance + 0.5 × OutstandingLoans + 200 × NumOfProducts
+          </p>
+          <p class="code">
+            expected_lost_value = churn_score × clv_est
+          </p>
+          <p>
+            Customers are then segmented using tenure, balance, products, and complaints into:
+          </p>
+          <ul>
+            <li>affluent_multi_product</li>
+            <li>high_complaint_risk</li>
+            <li>new_customer</li>
+            <li>single_product_low_engagement</li>
+            <li>mass_market</li>
+          </ul>
+          <p>
+            A rule-based recommender assigns targeted actions to customers in the top ~20% by churn score:
+          </p>
+          <ul>
+            <li>Affluent multi-product → personal banker outreach &amp; rate offer.</li>
+            <li>High complaint risk → service recovery &amp; possible fee refund.</li>
+            <li>New customers → onboarding support &amp; welcome offer.</li>
+            <li>Single-product low engagement → cross-sell bundle offer.</li>
+            <li>Others above cutoff → general retention email.</li>
+            <li>Below cutoff → <span class="code">no_action</span> to save budget.</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN: METRICS, DIAGRAMS, PIPELINE -->
+      <div>
+        <!-- Key Results -->
+        <section class="card">
+          <h2>Key Results</h2>
+          <div class="kpi-grid">
+            <div class="kpi">
+              <div class="kpi-label">Churn rate (labeled set)</div>
+              <div class="kpi-value">≈ 12.2%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Customers targeted</div>
+              <div class="kpi-value">~20%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Expected loss coverage (train/val/test)</div>
+              <div class="kpi-value">≈ 99.5%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Expected loss coverage (15.6k new)</div>
+              <div class="kpi-value">≈ 99.4%</div>
+            </div>
+          </div>
+          <p class="kpi-footnote">
+            On both the original labeled cohort and the new 15.6k customers, contacting only the top ~20% highest-risk
+            customers captures about 99% of total expected lost value. This demonstrates that the model's ranking is
+            highly efficient in terms of value.
+          </p>
+        </section>
+
+        <!-- Model Comparison Diagrams -->
+        <section class="card">
+          <h2>Model Comparison Diagrams</h2>
+          <div class="layout-split">
+            <div class="diagram-placeholder">
+              <div class="diagram-title">ROC Curve: LogReg vs XGBoost</div>
+              <div>
+                Export the ROC comparison from <span class="code">02_bank_churn_modeling_recommender.ipynb</span>
+                (e.g. as <span class="code">roc_comparison.png</span>) and embed it here.
+              </div>
+            </div>
+            <div class="diagram-placeholder">
+              <div class="diagram-title">Precision–Recall Curve</div>
+              <div>
+                Similarly, include the PR curve figure to highlight performance on the minority churn class.
+              </div>
+            </div>
+          </div>
+          <div class="layout-split" style="margin-top:10px;">
+            <div class="diagram-placeholder">
+              <div class="diagram-title">Recall@K Bar Chart</div>
+              <div>
+                Visualize Recall@Top 5%, 10%, 20% for both models to emphasize how well XGBoost captures churners in the
+                high-risk bucket.
+              </div>
+            </div>
+            <div class="diagram-placeholder">
+              <div class="diagram-title">Lift Curve</div>
+              <div>
+                Show the lift curve for XGBoost to illustrate how many times better than random the targeted group is.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- System pipeline -->
+        <section class="card">
+          <h2>System Pipeline</h2>
+          <div class="diagram-placeholder">
+            <div class="diagram-title">End-to-End Flow</div>
+            <div style="text-align:left; margin-top:6px;">
+              <ol style="padding-left:18px; margin:0; font-size:0.86rem;">
+                <li>Ingest and clean historical labeled data (Notebook 1).</li>
+                <li>Engineer features and encode categoricals; split into train/val/test; save to <span class="code">processed_bank/</span>.</li>
+                <li>Train and compare Logistic Regression and XGBoost (Notebook 2).</li>
+                <li>Select XGBoost, compute churn scores, CLV, expected lost value.</li>
+                <li>Segment customers and assign rule-based retention actions; export to <span class="code">bank_churn_recommendations.csv</span>.</li>
+                <li>For new customers, reload the model and reapply the same preprocessing (Notebook 3).</li>
+                <li>Score new customers → churn_score, clv_est, expected_lost_value, segment, recommended_action.</li>
+                <li>Export production-ready scoring file to <span class="code">new_customers_churn_predictions.csv</span>.</li>
+              </ol>
+            </div>
+          </div>
+          <h3 style="margin-top:10px;">Files Produced</h3>
+          <ul>
+            <li><span class="code">processed_bank/train.parquet</span>, <span class="code">val.parquet</span>, <span class="code">test.parquet</span></li>
+            <li><span class="code">outputs_bank/bank_churn_recommendations.csv</span></li>
+            <li><span class="code">models/xgb_bank_churn.json</span></li>
+            <li><span class="code">outputs_bank/new_customers_churn_predictions.csv</span></li>
+          </ul>
+        </section>
+
+        <!-- Future work -->
+        <section class="card">
+          <h2>Future Enhancements</h2>
+          <ul>
+            <li>Integrate SHAP to explain churn drivers at per-customer and segment level.</li>
+            <li>Use uplift / treatment-effect modeling to optimize which retention action to take per customer.</li>
+            <li>Generate personalized outreach messages per segment using LLMs.</li>
+            <li>Wrap the pipeline in a REST API or scheduled batch job for automatic scoring.</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag">Explainability</span>
+            <span class="tag">Uplift Modeling</span>
+            <span class="tag">LLMs</span>
+            <span class="tag">Productionization</span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <!-- Replace with your name / links -->
+      Built as a portfolio project. Add links to your GitHub, LinkedIn, or resume here.
+    </footer>
+  </div>
+</body>
+</html>

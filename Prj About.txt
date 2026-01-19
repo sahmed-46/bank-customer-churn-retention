@@ -1,0 +1,10 @@
+
+Banking Customer Churn Prediction and Retention Recommendation System
+
+I worked on a project that delivers an end-to-end churn prediction and retention recommendation system for a retail bank, transforming raw customer data into actionable business decisions. 
+The workflow includes structured data cleaning and feature engineering, training and evaluating multiple models: 
+1. Logistic Regression – used as a baseline model to establish a simple, interpretable benchmark for churn prediction. 
+2. XGBoost (Extreme Gradient Boosting) – used as the final model due to its superior performance in capturing non-linear patterns. 
+XGBoost was selected as the final model, and ranking customers by both churn risk and estimated financial impact. 
+Customers are segmented into meaningful groups, and model outputs are translated into targeted retention actions. 
+A production-style inference pipeline applies the same preprocessing and model logic to new customers, demonstrating how the system can be operationalized at scale.

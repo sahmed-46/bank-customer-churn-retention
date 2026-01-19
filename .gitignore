@@ -1,0 +1,16 @@
+# Data files
+data/raw/
+data/processed/
+
+# Model artifacts (optional)
+*.parquet
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
