@@ -1,0 +1,498 @@
+{
+ "featureNames": [
+  "Number of Dependents",
+  "Income",
+  "Customer Tenure",
+  "Credit Score",
+  "Credit History Length",
+  "Outstanding Loans",
+  "Balance",
+  "NumOfProducts",
+  "NumComplaints",
+  "high_balance",
+  "has_complaints",
+  "Occupation_freq",
+  "Gender_Male",
+  "Marital Status_Married",
+  "Marital Status_Single",
+  "Education Level_Diploma",
+  "Education Level_High School",
+  "Education Level_Master's",
+  "Customer Segment_Retail",
+  "Customer Segment_SME",
+  "Preferred Communication Channel_Phone",
+  "tenure_bucket_6-12m",
+  "tenure_bucket_1-3y",
+  "tenure_bucket_3y+"
+ ],
+ "featureLabels": [
+  "Dependents",
+  "Income",
+  "Tenure (years)",
+  "Credit score",
+  "Credit history length",
+  "Outstanding loans",
+  "Balance",
+  "Products held",
+  "Complaints",
+  "Above-median balance",
+  "Has complaints",
+  "Occupation frequency",
+  "Gender: male",
+  "Married",
+  "Single",
+  "Education: diploma",
+  "Education: high school",
+  "Education: master's",
+  "Segment: retail",
+  "Segment: SME",
+  "Prefers phone",
+  "Tenure bucket 6-12",
+  "Tenure bucket 12-36",
+  "Tenure bucket 36+"
+ ],
+ "binaryFeatures": [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  true,
+  true,
+  false,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true
+ ],
+ "baseValue": 0.093771,
+ "dictionaries": {
+  "segment": [
+   "affluent_multi_product",
+   "mass_market",
+   "new_customer",
+   "single_product_low_engagement"
+  ],
+  "action": [
+   "cross_sell_bundle_offer",
+   "general_retention_email",
+   "no_action",
+   "onboarding_support_and_welcome_offer"
+  ],
+  "customerSegment": [
+   "Corporate",
+   "Retail",
+   "SME"
+  ]
+ },
+ "partitions": {
+  "train": {
+   "start": 0,
+   "end": 60000
+  },
+  "validation": {
+   "start": 60000,
+   "end": 80000
+  },
+  "test": {
+   "start": 80000,
+   "end": 100000
+  }
+ },
+ "importance": {
+  "train": [
+   {
+    "feature": 6,
+    "meanAbs": 6.65104,
+    "raisesShare": 0.1744
+   },
+   {
+    "feature": 8,
+    "meanAbs": 2.22022,
+    "raisesShare": 0.3768
+   },
+   {
+    "feature": 7,
+    "meanAbs": 2.09232,
+    "raisesShare": 0.4016
+   },
+   {
+    "feature": 3,
+    "meanAbs": 2.04569,
+    "raisesShare": 0.38
+   },
+   {
+    "feature": 9,
+    "meanAbs": 0.52161,
+    "raisesShare": 0.5
+   },
+   {
+    "feature": 10,
+    "meanAbs": 0.09845,
+    "raisesShare": 0.9087
+   },
+   {
+    "feature": 2,
+    "meanAbs": 0.03744,
+    "raisesShare": 0.3445
+   },
+   {
+    "feature": 5,
+    "meanAbs": 0.03635,
+    "raisesShare": 0.2286
+   },
+   {
+    "feature": 1,
+    "meanAbs": 0.03078,
+    "raisesShare": 0.2725
+   },
+   {
+    "feature": 11,
+    "meanAbs": 0.02995,
+    "raisesShare": 0.2277
+   }
+  ],
+  "validation": [
+   {
+    "feature": 6,
+    "meanAbs": 6.6488,
+    "raisesShare": 0.1726
+   },
+   {
+    "feature": 8,
+    "meanAbs": 2.22702,
+    "raisesShare": 0.3795
+   },
+   {
+    "feature": 7,
+    "meanAbs": 2.09134,
+    "raisesShare": 0.4002
+   },
+   {
+    "feature": 3,
+    "meanAbs": 2.02708,
+    "raisesShare": 0.3851
+   },
+   {
+    "feature": 9,
+    "meanAbs": 0.52498,
+    "raisesShare": 0.4961
+   },
+   {
+    "feature": 10,
+    "meanAbs": 0.09904,
+    "raisesShare": 0.908
+   },
+   {
+    "feature": 2,
+    "meanAbs": 0.03741,
+    "raisesShare": 0.3438
+   },
+   {
+    "feature": 5,
+    "meanAbs": 0.03618,
+    "raisesShare": 0.2271
+   },
+   {
+    "feature": 1,
+    "meanAbs": 0.03044,
+    "raisesShare": 0.273
+   },
+   {
+    "feature": 11,
+    "meanAbs": 0.03007,
+    "raisesShare": 0.2422
+   }
+  ],
+  "test": [
+   {
+    "feature": 6,
+    "meanAbs": 6.64997,
+    "raisesShare": 0.1704
+   },
+   {
+    "feature": 8,
+    "meanAbs": 2.22616,
+    "raisesShare": 0.3784
+   },
+   {
+    "feature": 7,
+    "meanAbs": 2.08913,
+    "raisesShare": 0.3993
+   },
+   {
+    "feature": 3,
+    "meanAbs": 2.04329,
+    "raisesShare": 0.3791
+   },
+   {
+    "feature": 9,
+    "meanAbs": 0.52281,
+    "raisesShare": 0.499
+   },
+   {
+    "feature": 10,
+    "meanAbs": 0.09971,
+    "raisesShare": 0.9056
+   },
+   {
+    "feature": 2,
+    "meanAbs": 0.03758,
+    "raisesShare": 0.3418
+   },
+   {
+    "feature": 5,
+    "meanAbs": 0.03619,
+    "raisesShare": 0.2297
+   },
+   {
+    "feature": 1,
+    "meanAbs": 0.0309,
+    "raisesShare": 0.2711
+   },
+   {
+    "feature": 11,
+    "meanAbs": 0.03023,
+    "raisesShare": 0.2434
+   }
+  ],
+  "inference": [
+   {
+    "feature": 6,
+    "meanAbs": 6.61758,
+    "raisesShare": 0.1768
+   },
+   {
+    "feature": 8,
+    "meanAbs": 2.2113,
+    "raisesShare": 0.3806
+   },
+   {
+    "feature": 7,
+    "meanAbs": 2.07637,
+    "raisesShare": 0.4047
+   },
+   {
+    "feature": 3,
+    "meanAbs": 2.05514,
+    "raisesShare": 0.3841
+   },
+   {
+    "feature": 9,
+    "meanAbs": 0.52443,
+    "raisesShare": 0.5013
+   },
+   {
+    "feature": 10,
+    "meanAbs": 0.09659,
+    "raisesShare": 0.9124
+   },
+   {
+    "feature": 11,
+    "meanAbs": 0.04382,
+    "raisesShare": 0.1282
+   },
+   {
+    "feature": 2,
+    "meanAbs": 0.03829,
+    "raisesShare": 0.35
+   },
+   {
+    "feature": 5,
+    "meanAbs": 0.03688,
+    "raisesShare": 0.2304
+   },
+   {
+    "feature": 1,
+    "meanAbs": 0.03036,
+    "raisesShare": 0.2771
+   }
+  ]
+ },
+ "datasets": {
+  "labeled": {
+   "source": "bank_churn_recommendations.csv",
+   "rows": 100000,
+   "columns": [
+    {
+     "name": "churnScore",
+     "type": "float32",
+     "offset": 0,
+     "length": 100000
+    },
+    {
+     "name": "clv",
+     "type": "float32",
+     "offset": 400000,
+     "length": 100000
+    },
+    {
+     "name": "expectedLoss",
+     "type": "float32",
+     "offset": 800000,
+     "length": 100000
+    },
+    {
+     "name": "balance",
+     "type": "float32",
+     "offset": 1200000,
+     "length": 100000
+    },
+    {
+     "name": "tenure",
+     "type": "uint8",
+     "offset": 1600000,
+     "length": 100000
+    },
+    {
+     "name": "products",
+     "type": "uint8",
+     "offset": 1700000,
+     "length": 100000
+    },
+    {
+     "name": "churned",
+     "type": "uint8",
+     "offset": 1800000,
+     "length": 100000
+    },
+    {
+     "name": "segment",
+     "type": "uint8",
+     "offset": 1900000,
+     "length": 100000
+    },
+    {
+     "name": "action",
+     "type": "uint8",
+     "offset": 2000000,
+     "length": 100000
+    },
+    {
+     "name": "customerSegment",
+     "type": "uint8",
+     "offset": 2100000,
+     "length": 100000
+    }
+   ],
+   "drivers": [
+    {
+     "name": "contribution",
+     "type": "float32",
+     "offset": 0,
+     "length": 300000
+    },
+    {
+     "name": "value",
+     "type": "float32",
+     "offset": 1200000,
+     "length": 300000
+    },
+    {
+     "name": "feature",
+     "type": "uint8",
+     "offset": 2400000,
+     "length": 300000
+    }
+   ]
+  },
+  "inference": {
+   "source": "new_customers_churn_predictions.csv",
+   "rows": 15640,
+   "columns": [
+    {
+     "name": "churnScore",
+     "type": "float32",
+     "offset": 0,
+     "length": 15640
+    },
+    {
+     "name": "clv",
+     "type": "float32",
+     "offset": 62560,
+     "length": 15640
+    },
+    {
+     "name": "expectedLoss",
+     "type": "float32",
+     "offset": 125120,
+     "length": 15640
+    },
+    {
+     "name": "balance",
+     "type": "float32",
+     "offset": 187680,
+     "length": 15640
+    },
+    {
+     "name": "tenure",
+     "type": "uint8",
+     "offset": 250240,
+     "length": 15640
+    },
+    {
+     "name": "products",
+     "type": "uint8",
+     "offset": 265880,
+     "length": 15640
+    },
+    {
+     "name": "churned",
+     "type": "uint8",
+     "offset": 281520,
+     "length": 15640
+    },
+    {
+     "name": "segment",
+     "type": "uint8",
+     "offset": 297160,
+     "length": 15640
+    },
+    {
+     "name": "action",
+     "type": "uint8",
+     "offset": 312800,
+     "length": 15640
+    },
+    {
+     "name": "customerSegment",
+     "type": "uint8",
+     "offset": 328440,
+     "length": 15640
+    }
+   ],
+   "drivers": [
+    {
+     "name": "contribution",
+     "type": "float32",
+     "offset": 0,
+     "length": 46920
+    },
+    {
+     "name": "value",
+     "type": "float32",
+     "offset": 187680,
+     "length": 46920
+    },
+    {
+     "name": "feature",
+     "type": "uint8",
+     "offset": 375360,
+     "length": 46920
+    }
+   ]
+  }
+ }
+}
