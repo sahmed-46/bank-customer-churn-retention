@@ -81,6 +81,7 @@
  "dictionaries": {
   "segment": [
    "affluent_multi_product",
+   "high_complaint_risk",
    "mass_market",
    "new_customer",
    "single_product_low_engagement"
@@ -89,7 +90,9 @@
    "cross_sell_bundle_offer",
    "general_retention_email",
    "no_action",
-   "onboarding_support_and_welcome_offer"
+   "onboarding_support_and_",
+   "onboarding_support_and_welcome_offer",
+   "service_recovery_and_fe"
   ],
   "customerSegment": [
    "Corporate",
@@ -271,53 +274,53 @@
   "inference": [
    {
     "feature": 6,
-    "meanAbs": 6.61758,
-    "raisesShare": 0.1768
+    "meanAbs": 5.40332,
+    "raisesShare": 0.1839
    },
    {
     "feature": 8,
-    "meanAbs": 2.2113,
-    "raisesShare": 0.3806
-   },
-   {
-    "feature": 7,
-    "meanAbs": 2.07637,
-    "raisesShare": 0.4047
+    "meanAbs": 4.31274,
+    "raisesShare": 0.0
    },
    {
     "feature": 3,
-    "meanAbs": 2.05514,
-    "raisesShare": 0.3841
+    "meanAbs": 2.58457,
+    "raisesShare": 0.0087
    },
    {
-    "feature": 9,
-    "meanAbs": 0.52443,
-    "raisesShare": 0.5013
+    "feature": 7,
+    "meanAbs": 1.81442,
+    "raisesShare": 0.8462
    },
    {
     "feature": 10,
-    "meanAbs": 0.09659,
-    "raisesShare": 0.9124
+    "meanAbs": 0.61538,
+    "raisesShare": 0.2393
+   },
+   {
+    "feature": 9,
+    "meanAbs": 0.3283,
+    "raisesShare": 0.623
    },
    {
     "feature": 11,
-    "meanAbs": 0.04382,
-    "raisesShare": 0.1282
-   },
-   {
-    "feature": 2,
-    "meanAbs": 0.03829,
-    "raisesShare": 0.35
+    "meanAbs": 0.21864,
+    "raisesShare": 0.9954
    },
    {
     "feature": 5,
-    "meanAbs": 0.03688,
-    "raisesShare": 0.2304
+    "meanAbs": 0.07079,
+    "raisesShare": 0.5152
    },
    {
     "feature": 1,
-    "meanAbs": 0.03036,
-    "raisesShare": 0.2771
+    "meanAbs": 0.07066,
+    "raisesShare": 0.3333
+   },
+   {
+    "feature": 2,
+    "meanAbs": 0.03962,
+    "raisesShare": 0.3192
    }
   ]
  },
@@ -409,68 +412,68 @@
    ]
   },
   "inference": {
-   "source": "new_customers_churn_predictions.csv",
-   "rows": 15640,
+   "source": "dashboard_inference_predictions.csv",
+   "rows": 10000,
    "columns": [
     {
      "name": "churnScore",
      "type": "float32",
      "offset": 0,
-     "length": 15640
+     "length": 10000
     },
     {
      "name": "clv",
      "type": "float32",
-     "offset": 62560,
-     "length": 15640
+     "offset": 40000,
+     "length": 10000
     },
     {
      "name": "expectedLoss",
      "type": "float32",
-     "offset": 125120,
-     "length": 15640
+     "offset": 80000,
+     "length": 10000
     },
     {
      "name": "balance",
      "type": "float32",
-     "offset": 187680,
-     "length": 15640
+     "offset": 120000,
+     "length": 10000
     },
     {
      "name": "tenure",
      "type": "uint8",
-     "offset": 250240,
-     "length": 15640
+     "offset": 160000,
+     "length": 10000
     },
     {
      "name": "products",
      "type": "uint8",
-     "offset": 265880,
-     "length": 15640
+     "offset": 170000,
+     "length": 10000
     },
     {
      "name": "churned",
      "type": "uint8",
-     "offset": 281520,
-     "length": 15640
+     "offset": 180000,
+     "length": 10000
     },
     {
      "name": "segment",
      "type": "uint8",
-     "offset": 297160,
-     "length": 15640
+     "offset": 190000,
+     "length": 10000
     },
     {
      "name": "action",
      "type": "uint8",
-     "offset": 312800,
-     "length": 15640
+     "offset": 200000,
+     "length": 10000
     },
     {
      "name": "customerSegment",
      "type": "uint8",
-     "offset": 328440,
-     "length": 15640
+     "offset": 210000,
+     "length": 10000
     }
    ],
    "drivers": [
@@ -478,19 +481,19 @@
      "name": "contribution",
      "type": "float32",
      "offset": 0,
-     "length": 46920
+     "length": 30000
     },
     {
      "name": "value",
      "type": "float32",
-     "offset": 187680,
-     "length": 46920
+     "offset": 120000,
+     "length": 30000
     },
     {
      "name": "feature",
      "type": "uint8",
-     "offset": 375360,
-     "length": 46920
+     "offset": 240000,
+     "length": 30000
     }
    ]
   }

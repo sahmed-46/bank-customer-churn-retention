@@ -1,0 +1,55 @@
+name: Refresh model scores and deploy dashboard
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh-and-deploy
+  cancel-in-progress: true
+
+jobs:
+  refresh-build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      MODEL_VERSION: xgb_bank_churn_v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: jobs/requirements.txt
+      - run: pip install -r jobs/requirements.txt
+      - run: python jobs/score_customers.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+        working-directory: dashboard
+      - run: python scripts/build_data.py
+        working-directory: dashboard
+        env:
+          DASHBOARD_INFERENCE_RAW: ${{ github.workspace }}/data/db_exports/new_customer_data.csv
+          DASHBOARD_INFERENCE_SCORED: ${{ github.workspace }}/data/db_exports/dashboard_inference_predictions.csv
+      - run: npm run lint
+        working-directory: dashboard
+      - run: npm run build
+        working-directory: dashboard
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard/dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

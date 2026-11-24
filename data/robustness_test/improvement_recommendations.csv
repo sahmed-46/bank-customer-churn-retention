@@ -1,0 +1,5 @@
+improvement_recommendation
+Investigate population/concept drift; refresh training data with recent and stress-test-like customers.
+Improve probability calibration using Platt scaling or isotonic calibration on a recent holdout set.
+Re-tune ranking and threshold policy; top-20% outreach is missing too many churners in the new cohort.
+Review the 0.50 classification threshold and consider a cost-sensitive threshold based on retention capacity.

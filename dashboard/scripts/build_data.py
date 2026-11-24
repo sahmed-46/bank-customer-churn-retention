@@ -11,6 +11,7 @@ Run from the dashboard directory:  python scripts/build_data.py
 """
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -90,10 +91,16 @@ def labeled_features(feature_names):
     return pd.concat(parts), raw_rows, labels, (len(X_train), len(X_val), len(X_test))
 
 
-def inference_features(feature_names):
+def inference_features(feature_names, raw_path):
     train_raw = pd.read_csv(DATA / "bank_customer_churn_copy.csv").drop(columns=DROP_COLS)
-    new_raw = pd.read_csv(DATA / "new_customer_data.csv").drop(columns=DROP_COLS, errors="ignore")
-    features = engineer(new_raw, train_raw, train_raw["Occupation"].value_counts(), feature_names)
+    train_x, _, _, _ = train_test_split(
+        train_raw.drop(columns=[TARGET]), train_raw[TARGET], test_size=0.2, stratify=train_raw[TARGET], random_state=42
+    )
+    train_x, _, _, _ = train_test_split(
+        train_x, train_raw.loc[train_x.index, TARGET], test_size=0.25, stratify=train_raw.loc[train_x.index, TARGET], random_state=42
+    )
+    new_raw = pd.read_csv(raw_path).drop(columns=DROP_COLS, errors="ignore")
+    features = engineer(new_raw, train_x, train_x["Occupation"].value_counts(), feature_names)
     return features, new_raw
 
 
@@ -169,12 +176,14 @@ def main():
     feature_names = booster.feature_names
 
     recs = pd.read_csv(DATA / "outputs_bank" / "bank_churn_recommendations.csv")
-    new_scored = pd.read_csv(DATA / "outputs_bank" / "new_customers_churn_predictions.csv")
+    inference_raw_path = Path(os.environ.get("DASHBOARD_INFERENCE_RAW", str(DATA / "new_customer_data.csv")))
+    inference_scored_path = Path(os.environ.get("DASHBOARD_INFERENCE_SCORED", str(DATA / "outputs_bank" / "new_customers_churn_predictions.csv")))
+    new_scored = pd.read_csv(inference_scored_path)
 
     lab_features, lab_raw, labels, sizes = labeled_features(feature_names)
     if not (labels == recs[TARGET].to_numpy()).all():
         raise SystemExit("Labeled split order no longer matches bank_churn_recommendations.csv")
-    new_features, new_raw = inference_features(feature_names)
+    new_features, new_raw = inference_features(feature_names, inference_raw_path)
 
     lab_contrib, base_value, lab_drift = explain(booster, lab_features, recs["churn_score"].to_numpy(), "labeled")
     new_contrib, _, new_drift = explain(booster, new_features, new_scored["churn_score"].to_numpy(), "inference")
@@ -209,7 +218,7 @@ def main():
                 **build_dataset("labeled", recs, lab_raw, labels, lab_contrib, lab_features, feature_names, dictionaries),
             },
             "inference": {
-                "source": "new_customers_churn_predictions.csv",
+                "source": inference_scored_path.name,
                 **build_dataset("inference", new_scored, new_raw, None, new_contrib, new_features, feature_names, dictionaries),
             },
         },

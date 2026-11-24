@@ -14,3 +14,10 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# Local Supabase credentials/details
+supabase-prj-db-details
+supabase-prj-db-details.*
+
+# Runtime database exports
+data/db_exports/

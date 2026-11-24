@@ -1,0 +1,16 @@
+{
+  "seed": 20261123,
+  "records": 10000,
+  "synthetic_features": [
+    "skewed income/balance/loans",
+    "heavy-tail outliers",
+    "missing values",
+    "class imbalance",
+    "population drift",
+    "concept drift",
+    "categorical variation"
+  ],
+  "model": "Saved XGBoost model from data/models/xgb_bank_churn.json",
+  "threshold": 0.5,
+  "note": "RMSE is computed on predicted churn probabilities; it is the square root of the Brier score."
+}
